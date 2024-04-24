@@ -1,15 +1,17 @@
 import { Heart } from "lucide-react";
 import React from "react";
 import IconButton from "../IconButton";
-import { Book } from "@/types/api";
+import { Book } from "@/types/data";
+import Link from "next/link";
 
 interface Props {
   book: Book;
+  className?: string;
 }
 
-const Product: React.FC<Props> = ({ book }) => {
+const Product: React.FC<Props> = ({ book, className }) => {
   return (
-    <div className="">
+    <Link href={`/book/${book.book_id}`} className={className}>
       <div className="w-full">
         <img src={book.coverSrc} alt="book cover" className="mb-2 w-full" />
       </div>
@@ -21,9 +23,11 @@ const Product: React.FC<Props> = ({ book }) => {
           </IconButton>
         </div>
         <h2 className="text-sm font-bold mb-1">{book.title}</h2>
-        <p className="text-xs text-slate-500">By The Author</p>
+        <p className="text-xs text-slate-500">
+          By {book.author.first_name} {book.author.last_name}
+        </p>
       </div>
-    </div>
+    </Link>
   );
 };
 

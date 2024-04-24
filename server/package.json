@@ -2,10 +2,11 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "", 
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "flask --app flaskr run --debug"
+    "dev": "flask --app flaskr run --debug",
+    "test": "python3 -m pytest"
   },
   "keywords": [],
   "author": "Ikims",

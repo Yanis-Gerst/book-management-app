@@ -1,16 +1,23 @@
 import React from "react";
 import ProductList from "./ProductList";
-import { Book } from "@/types/api";
+import { Book } from "@/types/data";
 
 interface Props {
   title: string;
   books: Book[];
+  className?: string;
+  listClassName?: string;
 }
-const ProductListLabel: React.FC<Props> = ({ title, books }) => {
+const ProductListLabel: React.FC<Props> = ({
+  title,
+  books,
+  className,
+  listClassName,
+}) => {
   return (
-    <section>
-      <h1 className="text-xl font-bold ml-4 mb-4">{title}</h1>
-      <ProductList books={books} />
+    <section className={className}>
+      <h1 className="text-xl font-bold mb-4">{title}</h1>
+      <ProductList className={listClassName} books={books} />
     </section>
   );
 };

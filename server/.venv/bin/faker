@@ -1,4 +1,4 @@
-#!/Users/ikims/Work/Project/book-management-store/server/.venv/bin/python3.10
+#!/Users/ikims/Work/Project/book-management-store/server/.venv/bin/python3.12
 # -*- coding: utf-8 -*-
 import re
 import sys

@@ -1,15 +1,17 @@
 import React from "react";
 import Product from "./Product";
 import { Carousel, CarouselContent, CarouselItem } from "../ui/carousel";
-import { Book } from "@/types/api";
+import { Book } from "@/types/data";
+import { cn } from "@/lib/utils";
 
 interface Props {
   books: Book[];
+  className?: string;
 }
 
-const ProductList: React.FC<Props> = ({ books: products }) => {
+const ProductList: React.FC<Props> = ({ books: products, className }) => {
   return (
-    <Carousel className="ml-4">
+    <Carousel className={className}>
       <CarouselContent>
         {products.map((book) => (
           <CarouselItem
