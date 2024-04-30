@@ -1,11 +1,10 @@
-from flaskr.orm.setup import db, Author, Book, Reservation, Location, LocationBook, Tags, TagsBook, ReservationBook
+from flaskr.orm.setup import db, Author, Book, Reservation, Location
 from typing import Union
 from flask import jsonify, abort
 from flaskr.api.type import SearchQuery
 
 
-type DbModel = Union[Author, Book, Reservation, Location,
-                     LocationBook, Tags, TagsBook, ReservationBook]
+type DbModel = Union[Author, Book, Reservation, Location]
 
 
 def get_item_by_id(Item: DbModel, id: int):
@@ -20,7 +19,6 @@ def post_item(Item: DbModel, item_to_add: dict[str, any]):
         abort(400, description=f"Wrong data format {item_to_add}. Get err {err}")
     db.session.add(newItem)
     db.session.commit()
-    print("Send response")
     return jsonify({"success": True})
 
 

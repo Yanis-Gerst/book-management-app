@@ -1,18 +1,25 @@
 from flaskr.orm.setup import Reservation
 
+
+def test_get_full_reservation_by_id(client):
+    response = client.get("/reservation/9")
+    json = response.json
+   
+    assert "articles" in json.keys() and json["reservation_id"] == 9
+
 def test_post_reservation(client):
     response = client.post("/reservation", json={
-         "client_name": "Benoit Gerst",
-        "client_phone_number": "0789230338",
-        "books_id": [
+        "account_id": 1,
+        "articles_id": [
             1,
             2
         ]
     })
 
-    assert response.json["success"] == True
+    newReservation = client.get("/reservation/11")
 
-def test_get_full_reservation_by_id(client):
-    response = client.get("/reservation/9")
-    json = response.json
-    assert json["books"] is not None and json["reservation_id"] == 9
+    article1 = client.get("/article/1").json
+    article2 = client.get("/article/2").json
+
+    assert response.json["success"] == True and newReservation.json["reservation_id"] == 11 and article1["reservation_id"] == 11 and article2["reservation_id"] == 11
+

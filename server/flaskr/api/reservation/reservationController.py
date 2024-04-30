@@ -14,18 +14,9 @@ def get_reservation_by_id(reservation_id: int):
 
 def get_all_reservation():
     json_request: SearchQuery = request.get_json()
-    print(json_request)
     return get_all(Reservation, json_request)
-
-
-class BookReservationRequest(TypedDict):
-    books_id: List[int]
-    client_name: str
-    client_phone_number: str
 
 
 def post_reservation():
     jsonRequest: BookReservationRequest = request.get_json()
-    client_data = {"name": jsonRequest["client_name"],
-                   "phone_number": jsonRequest["client_phone_number"]}
-    return add_reservation(client_data, jsonRequest["books_id"])
+    return add_reservation(jsonRequest)

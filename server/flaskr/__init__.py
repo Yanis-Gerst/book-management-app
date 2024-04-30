@@ -2,10 +2,11 @@ from flask import Flask, json
 from flask.json.provider import DefaultJSONProvider
 from flaskr.config import config
 from flaskr.orm.setup import db
-from flaskr.orm.script import delete_All_Data, generate_fake_data
+from flaskr.orm.script import generate_fake_data
 from flaskr.api.book.bookRoutes import blueprint as book_blueprint
 from flaskr.api.reservation.reservationRoutes import blueprint as reservation_blueprint
 from flaskr.api.location.locationRoutes import blueprint as location_blueprint
+from flaskr.api.articles.articles_routes import blueprint as articles_blueprint
 from flask_cors import CORS
 from werkzeug.exceptions import HTTPException
 from datetime import datetime, date
@@ -29,6 +30,7 @@ def create_app(app_config=None):
     app.register_blueprint(book_blueprint)
     app.register_blueprint(reservation_blueprint)
     app.register_blueprint(location_blueprint)
+    app.register_blueprint(articles_blueprint)
     db.init_app(app)
 
     with app.app_context():

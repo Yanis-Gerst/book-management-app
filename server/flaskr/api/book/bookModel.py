@@ -1,4 +1,4 @@
-from flaskr.orm.setup import db, Book, Author, LocationBook, ReservationBook, Location
+from flaskr.orm.setup import db, Book, Author, Location, Article
 from flask import jsonify, abort
 from flaskr.utils.conversion import convert_sequence_to_sql_dict
 from sqlalchemy import or_, func, select
@@ -16,11 +16,8 @@ def get_random_book(number: int):
 
 
 def get_book_by_id(book_id: int):
-
-    book = Book.query.get_or_404(book_id, f"Cant find book of id {book_id}")
-    db.session.commit()
+    book = db.session.get(Book, book_id)
     return jsonify(book)
-
 
 def get_book_of_genre(genre: str, limit=5):
     books = Book.query.filter(Book.genre == genre).limit(limit).all()

@@ -1,4 +1,4 @@
-from flaskr.api.book.bookModel import get_random_book, get_book_by, get_book_of_genre, get_full_book_data
+from flaskr.api.book.bookModel import *
 from flask import request
 from flaskr.utils.commonServices import get_item_by_id, post_item
 from flaskr.orm.setup import Book
@@ -9,7 +9,7 @@ def get_promo_book():
     return books
 
 def get_one_book(book_id: int):
-    return get_item_by_id(Book, book_id)
+    return get_book_by_id( book_id)
 
 def get_top_5_book(categorie: str):
     return get_book_of_genre(categorie, 5)

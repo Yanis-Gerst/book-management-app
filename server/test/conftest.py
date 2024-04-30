@@ -1,7 +1,7 @@
 import pytest
 from flaskr import create_app
 from flaskr.orm.setup import db
-from flaskr.orm.script import delete_All_Data, generate_fake_data
+from flaskr.orm.script import  generate_fake_data
 
 
 class TestConfig:
@@ -15,9 +15,9 @@ def app():
     app.config.update()   
 
     with app.app_context():
-        delete_All_Data()
+        db.drop_all()
         db.create_all()
-        generate_fake_data(10, 20, 5, 10, 20)
+        generate_fake_data(10, 20, 1000, 10, 20, 10)
     # other setup can go here
 
     yield app

@@ -1,16 +1,17 @@
 import ProLayout from "@/app/ProLayout";
+import Articles from "@/components/Articles";
 import CentralCard from "@/components/CentralCard";
 import DateDisplayer from "@/components/DateDisplayer";
 import ModifyReservationForm from "@/components/MultipleSectionForm/Forms/ModifyReservationForm";
 import ProHeader from "@/components/ProHeader";
 import { Button } from "@/components/ui/button";
-import { fetchItemById } from "@/lib/service";
+import { fetchDataFromGetUrl } from "@/lib/services/commonServices";
 import { ILoan } from "@/types/data";
 import { BookDown, BookUp } from "lucide-react";
 import React from "react";
 
 const page = async ({ params }: { params: { id: string } }) => {
-  const location: ILoan = await fetchItemById("/location", params.id);
+  const location: ILoan = await fetchDataFromGetUrl(`location/${params.id}`);
   const locationDateStart = new Date(location.dateOfStart);
   const locationDateEnd = new Date(location.dateOfEnd);
 
@@ -32,10 +33,7 @@ const page = async ({ params }: { params: { id: string } }) => {
             <DateDisplayer date={locationDateEnd} />
           </p>
           <h3 className="font-bold text-lg mb-2">Articles</h3>
-          <ul className="list-disc pl-4 mb-8">
-            <li>One piece Vol.1</li>
-            <li>Chainswan Man</li>
-          </ul>
+          <Articles books={[]} />
           <div className="flex flex-col gap-2 w-3/4 ">
             <Button className="gap-2">
               <BookDown /> Confirmer le rendu
