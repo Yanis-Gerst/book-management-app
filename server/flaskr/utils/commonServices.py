@@ -1,13 +1,17 @@
 from flaskr.orm.setup import db, Author, Book, Reservation, Location, LocationBook, Tags, TagsBook, ReservationBook
 from typing import Union
 from flask import jsonify, abort
+from flaskr.api.type import SearchQuery
 
-type DbModel = Union[Author, Book, Reservation, Location, LocationBook, Tags, TagsBook, ReservationBook]
 
-def get_item_by_id(Item: DbModel , id: int):
-    result = Item.query.get_or_404(id, f"Cant find item of id {id}")
-    db.session.commit()
+type DbModel = Union[Author, Book, Reservation, Location,
+                     LocationBook, Tags, TagsBook, ReservationBook]
+
+
+def get_item_by_id(Item: DbModel, id: int):
+    result = db.session.get(Item, id)
     return jsonify(result)
+
 
 def post_item(Item: DbModel, item_to_add: dict[str, any]):
     try:
@@ -19,3 +23,8 @@ def post_item(Item: DbModel, item_to_add: dict[str, any]):
     print("Send response")
     return jsonify({"success": True})
 
+
+def get_all(Item: DbModel, query: SearchQuery):
+    result = Item.query.limit(query["limit"]).all()
+    db.session.commit()
+    return jsonify(result)

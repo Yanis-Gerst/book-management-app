@@ -20,10 +20,12 @@ def generate_fake_data(num_authors, num_books, num_tags, num_locations, num_rese
             title=fake.catch_phrase(),
             state=random.choice(["excellent", "bon", "moyen", "mauvais"]),
             price=random.randint(10, 100),
-            genre=random.choice(["Fantasy", "Science-fiction", "Dystopie", "Réaliste", "Romance"]),
+            genre=random.choice(
+                ["Fantasy", "Science-fiction", "Dystopie", "Réaliste", "Romance"]),
             author_id=random.randint(1, num_authors),
             coverSrc="https://placehold.co/1400x1873",
-            publicationDate=fake.date_between(start_date="-50y", end_date="today"),
+            publicationDate=fake.date_between(
+                start_date="-50y", end_date="today"),
             avgStar=str(random.uniform(1, 5))[:3],
             stocks=random.randint(1, 100),
             resume=fake.paragraph(nb_sentences=5)
@@ -54,8 +56,8 @@ def generate_fake_data(num_authors, num_books, num_tags, num_locations, num_rese
         location = Location(
             client_name=fake.name(),
             mobileNumber=fake.phone_number(),
-            dateOfStart=fake.date_between(start_date="today", end_date="+30d"),
-            dateOfEnd=fake.date_between(start_date="+31d", end_date="+60d")
+            dateOfStart=fake.date_between(start_date="-30d", end_date="today"),
+            dateOfEnd=fake.date_between(start_date="-15d", end_date="+30d")
         )
         db.session.add(location)
 
@@ -66,7 +68,8 @@ def generate_fake_data(num_authors, num_books, num_tags, num_locations, num_rese
         reservation = Reservation(
             client_name=fake.name(),
             mobileNumber=fake.phone_number(),
-            reservationDate=fake.date_between(start_date="today", end_date="+30d")
+            reservationDate=fake.date_between(
+                start_date="today", end_date="+30d")
         )
         db.session.add(reservation)
 
@@ -75,7 +78,8 @@ def generate_fake_data(num_authors, num_books, num_tags, num_locations, num_rese
     # Génération des associations entre les livres et les locations
     for book_id in range(1, num_books + 1):
         num_locations_per_book = random.randint(1, 5)
-        location_ids = random.sample(range(1, num_locations + 1), num_locations_per_book)
+        location_ids = random.sample(
+            range(1, num_locations + 1), num_locations_per_book)
         for location_id in location_ids:
             location_book = LocationBook(
                 location_id=location_id,
@@ -88,7 +92,8 @@ def generate_fake_data(num_authors, num_books, num_tags, num_locations, num_rese
     # Génération des associations entre les livres et les réservations
     for book_id in range(1, num_books + 1):
         num_reservations_per_book = random.randint(1, 5)
-        reservation_ids = random.sample(range(1, num_reservations + 1), num_reservations_per_book)
+        reservation_ids = random.sample(
+            range(1, num_reservations + 1), num_reservations_per_book)
         for reservation_id in reservation_ids:
             reservation_book = ReservationBook(
                 reservation_id=reservation_id,

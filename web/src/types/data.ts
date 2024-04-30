@@ -17,6 +17,7 @@ export type ProBook =
   | Book & {
       loan_number: number;
       reservation_number: number;
+      to_render_number: number;
     };
 
 export type IAuthor = {
@@ -35,4 +36,21 @@ export type ICategorie =
 export type ISearchUrlParms = {
   search: string;
   categorie: string;
+};
+
+export type IReservation = {
+  client_name: string;
+  mobileNumber: string;
+  reservationDate: string;
+};
+
+export type ILoan = {
+  client_name: string;
+  mobileNumber: string;
+  dateOfStart: Date;
+  dateOfEnd: Date;
+};
+
+export type IQuery = {
+  limit?: number;
 };

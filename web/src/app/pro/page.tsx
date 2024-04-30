@@ -1,8 +1,4 @@
 import ProSpaceLink from "@/components/ProSpaceLink";
-import StocksTable from "@/components/DataTable";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { fetchAllsStocksBooks } from "@/lib/service";
 import { Archive, BookUp, FileClock } from "lucide-react";
 import React from "react";
 

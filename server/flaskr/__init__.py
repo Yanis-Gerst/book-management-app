@@ -1,19 +1,34 @@
 from flask import Flask, json
+from flask.json.provider import DefaultJSONProvider
 from flaskr.config import config
 from flaskr.orm.setup import db
 from flaskr.orm.script import delete_All_Data, generate_fake_data
 from flaskr.api.book.bookRoutes import blueprint as book_blueprint
 from flaskr.api.reservation.reservationRoutes import blueprint as reservation_blueprint
+from flaskr.api.location.locationRoutes import blueprint as location_blueprint
 from flask_cors import CORS
 from werkzeug.exceptions import HTTPException
+from datetime import datetime, date
 
-def create_app():
 
+class UpdatedJSONProvider(DefaultJSONProvider):
+    def default(self, o):
+        if isinstance(o, date) or isinstance(o, datetime):
+            return o.isoformat()
+        return super().default(o)
+
+def create_app(app_config=None):
+    
     app = Flask(__name__)
+    app.json = UpdatedJSONProvider(app)
     CORS(app, resources={r"/book/*": {"origins": "*"}})
-    app.config.from_object(config["dev"])
+    if app_config is None:
+     app.config.from_object(config["dev"])
+    else:   
+        app.config.from_object(app_config)
     app.register_blueprint(book_blueprint)
     app.register_blueprint(reservation_blueprint)
+    app.register_blueprint(location_blueprint)
     db.init_app(app)
 
     with app.app_context():
@@ -22,7 +37,6 @@ def create_app():
         # db.drop_all()
         # db.create_all()
         # generate_fake_data(10, 20, 5, 10, 20)
-
 
     @app.route('/')
     def hello():
@@ -39,5 +53,5 @@ def create_app():
         })
         response.content_type = "application/json"
         return response
-    
+
     return app

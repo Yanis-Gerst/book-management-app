@@ -2,7 +2,7 @@ import datetime
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import DeclarativeBase, MappedAsDataclass, Mapped, mapped_column, relationship
-
+from typing import List
 class Base(DeclarativeBase, MappedAsDataclass):
    pass
 
@@ -92,16 +92,21 @@ class Reservation(db.Model):
     client_name: Mapped[str] = mapped_column(nullable=False)
     mobileNumber: Mapped[str] = mapped_column(nullable=False)
     reservationDate: Mapped[datetime.date] = mapped_column(nullable=False)
+    books: Mapped[List["Book"]] = relationship(secondary="reservationBook")
+  
 
     def __init__(self, client_name, mobileNumber, reservationDate):
         self.client_name = client_name
         self.mobileNumber = mobileNumber
         self.reservationDate = reservationDate
-  
+
+
 class LocationBook(db.Model):
     __tablename__ = "locationBook"
     location_id: Mapped[int] = mapped_column(ForeignKey("location.location_id"), primary_key=True)
     book_id: Mapped[int] = mapped_column(ForeignKey("book.book_id"), primary_key=True)
+    book: Mapped["Book"] = relationship()
+    location: Mapped["Location"] = relationship()
 
     def __init__(self, location_id, book_id):
         self.location_id = location_id
@@ -111,6 +116,8 @@ class ReservationBook(db.Model):
     __tablename__ = "reservationBook"
     reservation_id: Mapped[int] = mapped_column(ForeignKey("reservation.reservation_id"), primary_key=True)
     book_id: Mapped[int] = mapped_column(ForeignKey("book.book_id"), primary_key=True)
+    book: Mapped["Book"] = relationship()
+    reservation: Mapped["Reservation"] = relationship()
 
     def __init__(self, reservation_id, book_id):
         self.reservation_id = reservation_id

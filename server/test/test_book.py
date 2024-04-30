@@ -6,7 +6,6 @@ def test_get_book_by_id(client):
 
 
 def test_get_pro_book(client):
-    response = client.post("/book/pro", json={})
-    print(response.json, "la réponse")
-    firstItem = response.json[0]
-    assert "loan_number" in firstItem and "reservation_number" in firstItem
+    response = client.post("/book/pro", json={"limit": 30})
+    firstItem = response.json[1]
+    assert "loan_number" in firstItem and "reservation_number" in firstItem and "to_render_number" in firstItem

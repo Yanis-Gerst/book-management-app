@@ -2,6 +2,7 @@ from flaskr.api.book.bookModel import get_random_book, get_book_by, get_book_of_
 from flask import request
 from flaskr.utils.commonServices import get_item_by_id, post_item
 from flaskr.orm.setup import Book
+from flaskr.api.type import SearchQuery
 
 def get_promo_book():
     books = get_random_book(4)
@@ -20,11 +21,10 @@ def research_book():
 
     return get_book_by(query, categorie)
 
-    
 def post_book():
     jsonRequest = request.get_json()
     return post_item(Book, jsonRequest)
 
 def get_books_pro():
-    json_request = request.get_json()
-    return get_full_book_data()
+    json_request: SearchQuery = request.get_json()
+    return get_full_book_data(json_request)

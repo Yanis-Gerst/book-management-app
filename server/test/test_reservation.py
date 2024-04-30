@@ -11,3 +11,8 @@ def test_post_reservation(client):
     })
 
     assert response.json["success"] == True
+
+def test_get_full_reservation_by_id(client):
+    response = client.get("/reservation/9")
+    json = response.json
+    assert json["books"] is not None and json["reservation_id"] == 9

@@ -2,12 +2,18 @@ import AddToBasketButton from "@/components/AddToBasketButton";
 import Header from "@/components/Header";
 import IconButton from "@/components/IconButton";
 import ProductListLabel from "@/components/ProductsUI/ProductListLabel";
-import { fetchBookById, fetchBooksByAuthor } from "@/lib/service";
+import {
+  fetchBookById,
+  fetchBooksByAuthor,
+  fetchItemById,
+} from "@/lib/service";
+import { Book } from "@/types/data";
 import { Heart } from "lucide-react";
 import React from "react";
 
 const page = async ({ params }: { params: { id: string } }) => {
-  const book = await fetchBookById(params.id);
+  const book = await fetchItemById<Book>("book", params.id);
+  // TODO: Fix this useless fetch
   const sameAuthorsBooks = await fetchBooksByAuthor(book.author.last_name);
   console.log(book);
   return (

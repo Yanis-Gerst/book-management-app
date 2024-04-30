@@ -5,6 +5,7 @@ import IconButton from "./IconButton";
 import { useToggle } from "usehooks-ts";
 import SearchBar from "./SearchBar";
 import BasketIcon from "./BasketIcon";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
   const [openCommand, toogleOpenCommand] = useToggle(false);
