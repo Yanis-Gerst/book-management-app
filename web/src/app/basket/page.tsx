@@ -2,7 +2,7 @@ import Basket from "@/components/Basket";
 import Header from "@/components/Header";
 import React from "react";
 import ProductListLabel from "@/components/ProductsUI/ProductListLabel";
-import { getTop5Of } from "@/lib/service";
+import { getTop5Of } from "@/lib/services/books";
 
 const Page = async () => {
   const top5Romance = await getTop5Of("Romance");

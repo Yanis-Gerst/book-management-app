@@ -9,51 +9,57 @@ import { renamesKeys } from "@/utils/conversion";
 import { Plus } from "lucide-react";
 import { fetchDataWithQueryFrom } from "@/lib/services/commonServices";
 
+export const dynamic = "force-dynamic";
+
 const columns: ColumnDef<Record<string, any>>[] = [
   {
     accessorKey: "title",
     header: "Title",
   },
   {
-    accessorKey: "stocks",
-    header: "Stock",
-  },
-  {
-    accessorKey: "loan_number",
-    header: "Emprunt",
-  },
-  {
-    accessorKey: "to_render_number",
-    header: "À rendre",
+    accessorKey: "total_stocks",
+    header: "stocks",
   },
   {
     accessorKey: "price",
     header: "Prix",
   },
+  {
+    accessorKey: "id",
+    header: "ID Livre",
+  },
 ];
 
 const page = async () => {
+  // DataRow: Book -> 5 article -> title etat emprunt dispo
   const allBooks = await fetchDataWithQueryFrom<any>("book/pro", {
     limit: 20,
   });
 
-  console.log(allBooks);
-
   return (
-    <ProLayout>
+    <ProLayout className="px-0">
       <ProHeader>Gestion des stocks</ProHeader>
 
-      <section className="mt-32 mb-8">
-        <Link href="/pro/stocks/add">
-          <Button className="gap-2">
-            <Plus width={16} height={16} /> <p>Ajouter un nouveau produit</p>
-          </Button>
-        </Link>
+      <section className="mt-32 mb-8 px-8">
+        <div className="flex flex-col gap-4">
+          <Link href="/pro/stocks/add">
+            <Button className="gap-2">
+              <Plus width={16} height={16} /> <p>Ajouter un nouveau Livre</p>
+            </Button>
+          </Link>
+          <Link href="/pro/stocks/article/add">
+            <Button className="gap-2" variant={"secondary"}>
+              <Plus width={16} height={16} /> <p>Ajouter un nouvelle Article</p>
+            </Button>
+          </Link>
+        </div>
       </section>
-      <DataTable
-        data={renamesKeys(allBooks, "book_id", "id")}
-        columns={columns}
-      />
+      <div className="px-8">
+        <DataTable
+          data={renamesKeys(allBooks, "book_id", "id")}
+          columns={columns}
+        />
+      </div>
     </ProLayout>
   );
 };

@@ -1,4 +1,4 @@
-import { Book } from "@/types/data";
+import { Book, IState } from "@/types/data";
 import React, { useState } from "react";
 import {
   Select,
@@ -13,8 +13,9 @@ import {
   IBasketBook,
   getBasketFromLocalStorage,
   removeBasketBook,
-  updateLocalStorage,
 } from "@/lib/basket";
+import AuthorsNames from "./AuthorsNames";
+import SelectContentAvaibleState from "./SelectContentAvaibleState";
 
 interface Props {
   book: IBasketBook;
@@ -23,16 +24,31 @@ interface Props {
 
 const BasketItem: React.FC<Props> = ({ book, updateBasket }) => {
   const [quantity, setQuantity] = useState(book.quantity);
+  const [bookState, setBookState] = useState(book.state);
 
-  const updateQuantity = (book: IBasketBook, quantity: number) => {
-    setQuantity(quantity);
-    book.quantity = quantity;
+  const updateField = <T extends keyof IBasketBook>(
+    book: IBasketBook,
+    key: T,
+    value: IBasketBook[T]
+  ) => {
+    if (key === "quantity") setQuantity(value as number);
+    if (key === "state") {
+      if (quantity > book.stocks_per_state[value as IState].available)
+        updateField(
+          book,
+          "quantity",
+          book.stocks_per_state[value as IState].available
+        );
+      setBookState(value as IState);
+    }
+    book[key] = value;
     const basketStorage = getBasketFromLocalStorage();
     const updateBasketStorage = basketStorage.map((item: IBasketBook) =>
       item.book_id == book.book_id ? book : item
     );
     updateBasket(updateBasketStorage);
   };
+
   return (
     <div className="text-sm sm:text-base flex gap-4  ">
       <div className="max-w-[150px]">
@@ -41,23 +57,36 @@ const BasketItem: React.FC<Props> = ({ book, updateBasket }) => {
       <div className="flex flex-col">
         <p className="font-bold text-slate-500 mb-1">{book.genre}</p>
         <h2 className="text-base font-bold mb-2 sm:text-lg">{book.title}</h2>
-        <p className="text-slate-500">
-          By {book.author.first_name} {book.author.last_name}
-        </p>
+        <AuthorsNames authors={book.authors} />
         <Select
           value={quantity.toString()}
-          onValueChange={(value) => updateQuantity(book, parseInt(value))}
+          onValueChange={(value) =>
+            updateField(book, "quantity", parseInt(value))
+          }
         >
-          <SelectTrigger className="w-[100px] border-0 p-0">
+          <SelectTrigger className="w-[100px] focus:ring-opacity-0 border-0  p-0">
             Quantité: <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="1">1</SelectItem>
-            <SelectItem value="2">2</SelectItem>
-            <SelectItem value="3">3</SelectItem>
-            <SelectItem value="4">4</SelectItem>
-            <SelectItem value="5">5</SelectItem>
+            {Array.from(
+              Array(
+                Math.min(book.stocks_per_state[bookState].available, 5)
+              ).keys()
+            ).map((number) => (
+              <SelectItem key={number + 1} value={(number + 1).toString()}>
+                {number + 1}
+              </SelectItem>
+            ))}
           </SelectContent>
+        </Select>
+        <Select
+          value={bookState}
+          onValueChange={(value: IState) => updateField(book, "state", value)}
+        >
+          <SelectTrigger className="flex gap-1  focus:ring-opacity-0 outline-none w-min border-0 p-0">
+            État: <p>{bookState}</p>
+          </SelectTrigger>
+          <SelectContentAvaibleState book={book} />
         </Select>
         <IconButton
           className="mt-auto w-min"

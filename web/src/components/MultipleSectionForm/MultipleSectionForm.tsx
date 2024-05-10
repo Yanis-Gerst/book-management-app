@@ -39,7 +39,7 @@ const MultipleSectionForm = <T extends ZodRawShape>({
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className={cn(
-          "grid grid-cols-2 grid-rows-2 gap-x-32 gap-y-16",
+          "lg:grid grid-cols-2 grid-rows-3 gap-y-8 my-4  lg:gap-x-32 lg:gap-y-16 lg:grid-cols-2 flex gap-12 flex-col ",
           className
         )}
       >

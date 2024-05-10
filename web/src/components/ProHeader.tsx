@@ -14,20 +14,23 @@ const ProHeader: React.FC<Props> = ({ children }) => {
 
   return (
     <>
-      <div className="justify-center  items-center relative">
+      <div className="justify-center  items-center lg:relative flex mb-16">
         <Button
           variant="secondary"
-          className="mr-auto gap-2 absolute left-0  top-0 translate-y-1/4"
+          size={"sm"}
+          className="mr-auto gap-2 flex lg:absolute left-0  top-0 translate-y-1/4"
           onClick={() => router.back()}
         >
           <MoveLeft width={16} height={16} />
           <p>Retour</p>
         </Button>
         <div className="max-w-[70%] mx-auto">
-          <h1 className="text-5xl font-bold text-center px-8">{children}</h1>
+          <h1 className="lg:text-5xl sm:text-2xl text-xs font-bold text-center px-8">
+            {children}
+          </h1>
         </div>
       </div>
-      <SearchBar className="mt-16 bg-white max-w-[500px] mx-auto rounded-lg mb-32"></SearchBar>
+      {/* <SearchBar className="mt-16 bg-white max-w-[500px] mx-auto rounded-lg mb-32"></SearchBar> */}
     </>
   );
 };

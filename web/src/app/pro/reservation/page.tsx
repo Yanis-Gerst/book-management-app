@@ -9,14 +9,12 @@ import {
   fetchDataWithQueryFrom,
 } from "@/lib/services/commonServices";
 
+export const dynamic = "force-dynamic";
+
 const columns: ColumnDef<Record<string, any>>[] = [
   {
-    accessorKey: "client_name",
-    header: "Nom",
-  },
-  {
-    accessorKey: "mobileNumber",
-    header: "N°téléphone",
+    accessorKey: "account_id",
+    header: "accountID",
   },
   {
     accessorKey: "reservationDate",

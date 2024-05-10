@@ -1,8 +1,12 @@
 import { IQuery } from "@/types/data";
 import { apiUrl } from "../temps";
 
-export const fetchDataFromGetUrl = async <T>(apiEndpoint: string) => {
+export const fetchDataFromGetUrl = async <T>(
+  apiEndpoint: string,
+  method = "GET"
+) => {
   const res = await fetch(`${apiUrl}/${apiEndpoint}`, {
+    method: method,
     headers: {
       "Content-type": "application/json",
       "Access-Control-Allow-Origin": "http://localhost:3000",

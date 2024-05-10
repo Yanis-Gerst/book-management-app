@@ -10,14 +10,13 @@ import { Book } from "@/types/data";
 const formSchema = z.object({
   title: z.string().min(2),
   categorie: z.string(),
-  stock: z.string().regex(new RegExp("^[0-9]*$")),
   price: z.string().regex(new RegExp("^[0-9]*$")),
 });
 
 const ColumnsFormConfig: IColumnFormConfig[] = [
   {
     title: "Informations Produits",
-    fieldsNames: ["title", "categorie", "stock"],
+    fieldsNames: ["title", "categorie"],
   },
   {
     title: "Gestion des prix",
@@ -38,7 +37,6 @@ const ModifyBookForm: React.FC<Props> = ({ book }) => {
   const defaultValues = {
     title: book.title,
     categorie: book.genre,
-    stock: book.stocks,
     price: book.price,
   };
   return (
@@ -47,8 +45,9 @@ const ModifyBookForm: React.FC<Props> = ({ book }) => {
       onSubmit={onSubmit}
       columnFormConfigs={ColumnsFormConfig}
       defaultValues={defaultValues}
+      className="lg:grid-cols-2 flex gap-12 flex-col"
     >
-      <Button type="submit" className=" col-span-2">
+      <Button type="submit" className=" lg:col-span-2">
         Enregister les modifications
       </Button>
     </MultipleSectionForm>

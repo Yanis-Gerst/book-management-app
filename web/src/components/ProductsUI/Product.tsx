@@ -3,6 +3,7 @@ import React from "react";
 import IconButton from "../IconButton";
 import { Book } from "@/types/data";
 import Link from "next/link";
+import AuthorsNames from "../AuthorsNames";
 
 interface Props {
   book: Book;
@@ -23,9 +24,10 @@ const Product: React.FC<Props> = ({ book, className }) => {
           </IconButton>
         </div>
         <h2 className="text-sm font-bold mb-1">{book.title}</h2>
-        <p className="text-xs text-slate-500">
-          By {book.author.first_name} {book.author.last_name}
-        </p>
+        <AuthorsNames
+          authors={book.authors}
+          className="text-xs text-slate-500 "
+        />
       </div>
     </Link>
   );

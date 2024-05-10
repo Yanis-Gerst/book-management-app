@@ -1,10 +1,4 @@
-import {
-  Book,
-  ICategorie,
-  IQuery,
-  ISearchUrlParms,
-  ProBook,
-} from "@/types/data";
+import { Book, ICategorie, IQuery, ISearchUrlParms } from "@/types/data";
 import { apiUrl } from "../temps";
 
 export async function getTop5Of(categorie: ICategorie): Promise<Book[]> {
@@ -30,6 +24,8 @@ export const fetchBooksBySearchQuery = async (
     method: "POST",
     headers: {
       "Content-type": "application/json",
+      "Access-Control-Allow-Origin": "http://localhost:3000",
+      "Access-Control-Allow-Credentials": "true",
     },
     body: JSON.stringify({
       query: params.search,

@@ -1,9 +1,10 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { z } from "zod";
 import { Button } from "../../ui/button";
 import MultipleSectionForm, { IColumnFormConfig } from "../MultipleSectionForm";
-import { IReservation } from "@/types/data";
+import { IAccount, IReservation } from "@/types/data";
+import { fetchDataFromGetUrl } from "@/lib/services/commonServices";
 
 const formSchema = z.object({
   title: z.string().min(2),
@@ -25,26 +26,42 @@ interface Props {
   reservation: IReservation;
 }
 const ModifyReservationForm: React.FC<Props> = ({ reservation }) => {
+  const [account, setAccount] = useState<IAccount | null>();
+
+  useEffect(() => {
+    const fetchAccount = async () => {
+      const currentAccount = await fetchDataFromGetUrl<IAccount>(
+        `account/${reservation.account_id}`
+      );
+      setAccount(currentAccount);
+    };
+    fetchAccount();
+  }, []);
+
   const onSubmit = (values: IFormSchema) => {
     console.log(values);
   };
 
   const defaultValues = {
-    name: reservation.client_name,
-    phone_number: reservation.mobileNumber,
+    name: account?.first_name,
+    phone_number: account?.phone_number,
   };
   return (
-    <MultipleSectionForm
-      className="grid-cols-1"
-      formSchema={formSchema}
-      onSubmit={onSubmit}
-      columnFormConfigs={ColumnsFormConfig}
-      defaultValues={defaultValues}
-    >
-      <Button variant="outline" type="submit">
-        Enregistrer les modifications
-      </Button>
-    </MultipleSectionForm>
+    <>
+      {account && (
+        <MultipleSectionForm
+          className="flex flex-col gap-4  lg:flex "
+          formSchema={formSchema}
+          onSubmit={onSubmit}
+          columnFormConfigs={ColumnsFormConfig}
+          defaultValues={defaultValues}
+        >
+          <Button variant="outline" type="submit">
+            Enregistrer les modifications
+          </Button>
+        </MultipleSectionForm>
+      )}
+    </>
   );
 };
 

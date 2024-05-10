@@ -14,11 +14,9 @@ import {
   fetchDataWithQueryFrom,
 } from "@/lib/services/commonServices";
 
+export const dynamic = "force-dynamic";
+
 const columns: ColumnDef<Record<string, any>>[] = [
-  {
-    accessorKey: "client_name",
-    header: "Nom",
-  },
   {
     accessorKey: "dateOfStart",
     header: "Date début",
@@ -28,8 +26,8 @@ const columns: ColumnDef<Record<string, any>>[] = [
     header: "Date fin",
   },
   {
-    accessorKey: "mobileNumber",
-    header: "N°téléphone",
+    accessorKey: "account_id",
+    header: "accountID",
   },
 ];
 
@@ -45,13 +43,7 @@ const page = async () => {
     <ProLayout>
       <ProHeader>Gestion des stocks</ProHeader>
 
-      <section className="mt-32 mb-8">
-        <Link href="/pro/loan/add">
-          <Button className="gap-2">
-            <Plus width={16} height={16} /> <p>Ajouter un nouveau produit</p>
-          </Button>
-        </Link>
-      </section>
+      <section className="mt-32 mb-8"></section>
       <Tabs defaultValue="all">
         <TabsList>
           <TabsTrigger value="all">Toutes les locations</TabsTrigger>

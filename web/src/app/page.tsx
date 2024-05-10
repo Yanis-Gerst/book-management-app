@@ -1,9 +1,7 @@
 import Header from "@/components/Header";
 import ProductListLabel from "@/components/ProductsUI/ProductListLabel";
 import PromoBanner from "@/components/PromoBanner";
-import { getBasketFromLocalStorage, useBasketStore } from "@/lib/basket";
-import { getPromoBooks, getTop5Of } from "@/lib/service";
-import { useEffect } from "react";
+import { getPromoBooks, getTop5Of } from "@/lib/services/books";
 
 export default async function Home() {
   const promoBooks = await getPromoBooks();

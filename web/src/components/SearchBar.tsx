@@ -20,14 +20,7 @@ interface Props {
 }
 
 const formSchema = z.object({
-  search: z
-    .string()
-    .regex(
-      new RegExp(
-        "^[a-zA-Z0-9àáâãäåèéêëìíîïòóôõöùúûüçÀÁÂÃÄÅÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÇ'.]*$"
-      ),
-      "Don't contain any special character"
-    ),
+  search: z.string(),
   categorie: z.enum([
     "fantasy",
     "science-fiction",

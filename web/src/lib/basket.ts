@@ -1,7 +1,10 @@
-import { Book } from "@/types/data";
+import { Book, IState } from "@/types/data";
 import { create } from "zustand";
 
-export type IBasketBook = Book & { quantity: number };
+export type IBasketBook = Omit<Book, "articles"> & {
+  quantity: number;
+  state: IState;
+};
 
 export type IAddToBasketEvent = {
   detail: Book;

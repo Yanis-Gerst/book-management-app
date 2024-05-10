@@ -1,7 +1,8 @@
 import Header from "@/components/Header";
 import Product from "@/components/ProductsUI/Product";
 import { Button } from "@/components/ui/button";
-import { fetchBooksBySearchQuery } from "@/lib/service";
+import { fetchBooksBySearchQuery } from "@/lib/services/books";
+
 import { ISearchUrlParms } from "@/types/data";
 import { Filter } from "lucide-react";
 import React from "react";

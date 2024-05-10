@@ -1,17 +1,17 @@
-import ProLayout from "@/app/ProLayout";
+import React from "react";
 import AddLocationForm from "@/components/MultipleSectionForm/Forms/AddLocationFrom";
 import AddProductForm from "@/components/MultipleSectionForm/Forms/AddProductForm";
 import CentralCard from "@/components/CentralCard";
 import ProHeader from "@/components/ProHeader";
-import { Card } from "@/components/ui/card";
-import React from "react";
+import ProLayout from "@/app/ProLayout";
+import AddArticleForm from "@/components/MultipleSectionForm/Forms/AddArticleForm";
 
 const page = () => {
   return (
     <ProLayout>
-      <ProHeader>Ajouter un nouveau emprunt</ProHeader>
+      <ProHeader>Ajouter un nouvelle Article</ProHeader>
       <CentralCard>
-        <AddLocationForm />
+        <AddArticleForm />
       </CentralCard>
     </ProLayout>
   );

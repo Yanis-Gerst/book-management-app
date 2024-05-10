@@ -1,7 +1,9 @@
 import ProLayout from "@/app/ProLayout";
-import Articles from "@/components/Articles";
+import Articles from "@/components/Articles/Articles";
+import BookReservation from "@/components/BookReservation";
 import CentralCard from "@/components/CentralCard";
 import DateDisplayer from "@/components/DateDisplayer";
+import DeleteItemButton from "@/components/DeleteItemButton";
 import ModifyReservationForm from "@/components/MultipleSectionForm/Forms/ModifyReservationForm";
 import ProHeader from "@/components/ProHeader";
 import { Button } from "@/components/ui/button";
@@ -10,24 +12,27 @@ import { Book, IReservation } from "@/types/data";
 import { BookUp, BookX } from "lucide-react";
 import React from "react";
 
+export const dynamic = "force-dynamic";
+
 export type IFullReservationData = IReservation & {
   books: Book[];
 };
 
-const page = async ({ params }: { params: { id: string } }) => {
-  const reservation = await fetchDataFromGetUrl<any>(
+const Page = async ({ params }: { params: { id: string } }) => {
+  const reservation = await fetchDataFromGetUrl<IReservation>(
     `reservation/${params.id}`
   );
 
-  console.log(reservation);
+  if (!reservation) return;
+
   const reservationDate = new Date(reservation.reservationDate);
 
   return (
     <ProLayout>
       <ProHeader>
-        Gestion de la réservation de {reservation.client_name}
+        Gestion de la réservation N° {reservation.reservation_id}
       </ProHeader>
-      <CentralCard className="flex gap-32 items-start">
+      <CentralCard className="flex gap-32 items-start lg:flex-row flex-col px-2">
         <ModifyReservationForm reservation={reservation} />
         <div className="">
           <h2 className="mb-4 font-bold text-3xl">
@@ -38,14 +43,15 @@ const page = async ({ params }: { params: { id: string } }) => {
             <DateDisplayer date={reservationDate} />
           </p>
           <h3 className="font-bold text-lg mb-2">Articles</h3>
-          <Articles books={reservation.books} />
+          <Articles articles={reservation.articles} />
           <div className="flex flex-col gap-2 w-3/4 ">
-            <Button className="gap-2">
-              <BookUp /> Emprunter les articles
-            </Button>
-            <Button variant="secondary" className="gap-2">
+            <BookReservation id={params.id} />
+            <DeleteItemButton
+              variant={"secondary"}
+              apiEndpoint={`reservation/${params.id}`}
+            >
               <BookX /> Annuler la réservation
-            </Button>
+            </DeleteItemButton>
           </div>
         </div>
       </CentralCard>
@@ -53,4 +59,4 @@ const page = async ({ params }: { params: { id: string } }) => {
   );
 };
 
-export default page;
+export default Page;

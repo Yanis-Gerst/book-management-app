@@ -5,9 +5,11 @@ import React from "react";
 import { Card } from "./ui/card";
 import { BookCheck } from "lucide-react";
 import { Button } from "./ui/button";
+import AuthorsNames from "./AuthorsNames";
+import { IBasketBook } from "@/lib/basket";
 
 interface Props {
-  book: Book;
+  book: IBasketBook;
 }
 
 const CardBasketNotification: React.FC<Props> = ({ book }) => {
@@ -36,9 +38,10 @@ const CardBasketNotification: React.FC<Props> = ({ book }) => {
             <div className="flex flex-col gap-1">
               <p className="font-bold">{book.title}</p>
               <p className="text-sm text-slate-500">{book.genre}</p>
-              <p className="text-sm text-slate-500">
-                {book.author.first_name} {book.author.last_name}{" "}
-              </p>
+              <AuthorsNames
+                authors={book.authors}
+                className="text-sm text-slate-500"
+              />
               <p className="text-sm text-slate-500">Etat: {book.state}</p>
 
               <p className="mt-auto">{book.price}$</p>
