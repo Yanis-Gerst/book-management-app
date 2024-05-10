@@ -1,13 +1,19 @@
-Bonjour,
-Pour lancer le projet il faudra éxécuter la commande
-`pnpm -parallel run dev`
-cella va lancer la notre api sur l'adresse localhost:5000 et notre site web sur l'adresse localhost:300
-Le site web est réalisé avec Next.js
-L'API est réalisé avec Flask, sqlalchemy, sqlite
+Pour lancer le projet, veuillez suivre les étapes suivantes :
 
-Sous le répertoire server on retrouve l'api
-Sous le répertoire on retrouve le site web
+# Installation des dépendances
 
-La base donnée se trouve dans /server/db
+Exécutez la commande pnpm install pour installer les dépendances côté client.
 
-ATTENTION
+Pour installer les dépendances côté serveur, veuillez vous référer au fichier require.txt.
+
+# Lancement du projet
+
+Exécutez la commande pnpm -parallel run dev. Cette commande lancera notre API sur l'adresse localhost:5000 et notre site web sur l'adresse localhost:3000.
+
+# Technologies utilisées
+
+Le site web est développé avec Next.js.
+L'API est développée avec Flask, SQLAlchemy, et SQLite.
+Structure du projet
+Le répertoire server contient l'API.
+Le répertoire client contient le site web.
