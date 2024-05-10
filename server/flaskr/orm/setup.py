@@ -4,7 +4,8 @@ from sqlalchemy import ForeignKey
 from sqlalchemy.orm import DeclarativeBase, MappedAsDataclass, Mapped, mapped_column, relationship
 from typing import List
 from sqlalchemy.ext.hybrid import hybrid_property
-from sqlalchemy import func
+from sqlalchemy import func, select
+from sqlalchemy.ext.associationproxy import association_proxy, AssociationProxy
 
 class Base(DeclarativeBase, MappedAsDataclass):
    pass
@@ -31,10 +32,10 @@ class Book(db.Model):
     price: Mapped[int] = mapped_column(nullable=False)
     genre: Mapped[str] = mapped_column(nullable=False)
     coverSrc: Mapped[str] = mapped_column(nullable=False)
-    publicationDate: Mapped[datetime.date] = mapped_column(nullable=False)
+    publicationDate: Mapped[datetime.date] = mapped_column()
     resume: Mapped[str] = mapped_column()
     authors: Mapped[List["Author"]] = relationship(secondary="author_book")
-    articles: Mapped[List["Article"]] = relationship(backref="book")
+    articles: Mapped[List["Article"]] = relationship()
     total_stocks: Mapped[int]
     stocks_per_state: Mapped[dict[str, dict[str, int]]]
     
@@ -85,7 +86,7 @@ class Book(db.Model):
         self.stocks_per_state = value
     
     def __repr__(self):
-        return '<Book %r>' % self.book_id
+        return '<Book %r>' % self.book_id   
     
     
 
@@ -98,7 +99,6 @@ class Article(db.Model):
     book_id: Mapped[int] = mapped_column(ForeignKey("book.book_id"), nullable=False)
     reservation_id: Mapped[int] = mapped_column(ForeignKey("reservation.reservation_id"), nullable=True)
     location_id: Mapped[int] = mapped_column(ForeignKey("location.location_id"), nullable=True)
-  
 
     def __init__(self, state, place, book_id, reservation_id, location_id):
         self.state = state
@@ -106,6 +106,8 @@ class Article(db.Model):
         self.book_id = book_id
         self.reservation_id = reservation_id
         self.location_id = location_id
+
+    
         
 
 class AuthorBook(db.Model):
@@ -127,6 +129,8 @@ class Account(db.Model):
     phone_number: Mapped[str] = mapped_column(nullable=False)
     mail: Mapped[str] = mapped_column(nullable=False)
     password: Mapped[str] = mapped_column(nullable=False)
+    locations: Mapped[List["Location"]] = relationship()
+    reservations: Mapped[List["Reservation"]] = relationship()
 
     def __init__(self, role, first_name, last_name, phone_number, mail, password):
         self.role = role
@@ -142,7 +146,6 @@ class Location(db.Model):
     dateOfStart: Mapped[datetime.date] = mapped_column(nullable=False)
     dateOfEnd: Mapped[datetime.date] = mapped_column(nullable=False)
     account_id: Mapped[int] = mapped_column(ForeignKey("account.account_id"), nullable=False)
-    account: Mapped["Account"] = relationship()
     articles: Mapped[List["Article"]] = relationship()
 
     def __init__(self, dateOfStart, dateOfEnd, account_id):

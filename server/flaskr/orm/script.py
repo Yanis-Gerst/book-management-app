@@ -21,8 +21,9 @@ def generate_fake_data(num_authors, num_books, num_articles,num_account, num_loc
     for _ in range(num_books):
         title = fake.sentence()
         price = random.randint(10, 100)
-        genre = fake.word()
-        coverSrc = fake.image_url()
+        genre = random.choice(
+                ["Fantasy", "Science-fiction", "Dystopie", "Réaliste", "Romance"])
+        coverSrc ="https://placehold.co/1400x1873"
         publicationDate = fake.date_between(start_date='-50y', end_date='today')
         resume = fake.text()
         book = Book(title=title, price=price, genre=genre, coverSrc=coverSrc, publicationDate=publicationDate, resume=resume)

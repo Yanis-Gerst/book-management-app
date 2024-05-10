@@ -3,7 +3,7 @@ from datetime import datetime
 
 def test_get_location(client):
     response = client.get("/location/1")
-
+    print(response.json, "yos")
     assert response.json["location_id"] == 1 and "articles" in response.json.keys()
 
 def test_post_location(client):

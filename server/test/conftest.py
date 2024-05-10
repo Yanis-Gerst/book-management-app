@@ -15,9 +15,10 @@ def app():
     app.config.update()   
 
     with app.app_context():
-        db.drop_all()
-        db.create_all()
-        generate_fake_data(10, 20, 1000, 10, 20, 10)
+        pass
+        # db.drop_all()
+        # db.create_all()
+        # generate_fake_data(10, 20, 1000, 10, 20, 10)
     # other setup can go here
 
     yield app
